@@ -1,20 +1,14 @@
 import React from 'react';
+import * as R from 'ramda';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
-import { useQuery } from 'react-query';
-import axios from 'axios';
-import yahooStockAPI from 'yahoo-stock-api';
+import AAPL from './StubData/APPL.js';
 
-const url =
-  'http://api.marketstack.com/v1/eod?access_key=93b017b6b17fcc0404263e330e600263&symbols=AAPL';
-const serviceGet = async function getData() {
-  const actualData = await fetch(url).then((response) => response.json());
-};
+const deriveCandleStickData = R.identity;
+
+const data = deriveCandleStickData(AAPL);
 
 export const StockData = () => {
-  const queryBundle = useQuery('stockData', serviceGet);
-  console.log(queryBundle);
-
   const options = {
     title: {
       text: 'My stock chart',
