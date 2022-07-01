@@ -16,11 +16,14 @@ import style from 'styled-components';
 
 export const Game = () => {
   const [index, setIndex] = useState(10);
+  const handleHold = () => {
+    return setIndex(index + 1);
+  };
   return (
     <Style>
       <StockData index={index} />
       <BuyButton />
-      <HoldButton />
+      <HoldButton onClick={handleHold} />
       <BuyingPower />
       <Goal />
       <Header />
