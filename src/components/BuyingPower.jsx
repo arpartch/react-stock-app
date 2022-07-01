@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const BuyingPower = () => {
-  return <div id="BuyingPower">BuyingPower</div>;
+export const BuyingPower = ({ holding }) => {
+  return <div id="BuyingPower">BuyingPower: {holding}</div>;
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import * as R from 'ramda';
 import {
   BuyButton,
   StockData,
@@ -13,21 +14,54 @@ import {
   HoldButton,
 } from './components';
 import style from 'styled-components';
+import AAPL from './StubData/AAPL.js';
+
+const holdingLens = R.lensProp('holding');
+
+const sharesLens = R.lensProp('shares');
+
+// Get data out of the obj
+// Use props to get the keys in the correct order
+// Convert date to ms time stamp
+const deriveCandleStickData = R.pipe(
+  R.prop('data'),
+  R.map(R.props(['date', 'open', 'low', 'high', 'close']))
+);
+
+const data = deriveCandleStickData(AAPL);
+console.log(data);
 
 export const Game = () => {
   const [index, setIndex] = useState(10);
+  const visibleData = R.slice(0, index)(data);
+  const latestPrice = R.last(R.last(visibleData));
+  const [position, setPosition] = useState({ holding: 1000, shares: 0 });
+  const { shares } = position;
+  const { holding } = position;
+
+  const handleBuy = () => {
+    const sharesToBuy = Math.round(divide(1000, latestPrice));
+    const cashSpent = multiply(sharesToBuy, latestPrice);
+    setPosition(
+      R.pipe(
+        R.over(holdingLens, R.subtract(R.__, cashSpent)),
+        R.over(sharesLens, R.add(sharesToBuy))
+      )
+    );
+  };
+
   const handleHold = () => {
-    return setIndex(index + 1);
+    return setIndex(R.inc);
   };
   return (
     <Style>
-      <StockData index={index} />
-      <BuyButton />
+      <StockData data={visibleData} />
+      <BuyButton onClick={handleBuy} />
       <HoldButton onClick={handleHold} />
-      <BuyingPower />
+      <BuyingPower holding={holding} />
       <Goal />
       <Header />
-      <Positions />
+      <Positions position={shares} />
       <RandoButton />
       <SellButton />
       <GainLoss />
