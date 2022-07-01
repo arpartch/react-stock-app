@@ -1,0 +1,9 @@
+- StockData
+- Buy Button
+- Sell Button
+- Rando Button
+- Positions
+- Buying Power
+- Gains Losses
+- Heeader
+- Goal
