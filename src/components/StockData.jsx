@@ -5,17 +5,10 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import yahooStockAPI from 'yahoo-stock-api';
 
-// const url =
-//   'https://yfapi.net/v8/finance/chart/AAPL?range=1d&region=US&interval=5m&lang=en';
-const serviceGet = async () => {
-  const startDate = new Date('08/21/2020');
-  const endDate = new Date('08/26/2020');
-  return await yahooStockAPI.getHistoricalPrices(
-    startDate,
-    endDate,
-    'AAPL',
-    '1d'
-  );
+const url =
+  'http://api.marketstack.com/v1/eod?access_key=93b017b6b17fcc0404263e330e600263&symbols=AAPL';
+const serviceGet = async function getData() {
+  const actualData = await fetch(url).then((response) => response.json());
 };
 
 export const StockData = () => {
