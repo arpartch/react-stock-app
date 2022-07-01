@@ -12,34 +12,18 @@ const deriveCandleStickData = R.pipe(
   R.map(R.props(['date', 'open', 'low', 'high', 'close']))
 );
 
-// adj_close: 135.43
-// adj_high: null
-// adj_low: null
-// adj_open: null
-// adj_volume: null
-// close: 135.43
-// date: "2022-06-15T00:00:00+0000"
-// dividend: 0
-// exchange: "XNAS"
-// high: 137.34
-// low: 132.16
-// open: 134.29
-// split_factor: 1
-// symbol: "AAPL"
-// volume: 91352700
-
 const data = deriveCandleStickData(AAPL);
 console.log(data);
 
-export const StockData = () => {
+export const StockData = ({ index = 10 }) => {
   const options = {
     title: {
-      text: 'My stock chart',
+      text: 'AAPL stock chart',
     },
     series: [
       {
         type: 'candlestick',
-        data,
+        data: R.slice(0, index, data),
       },
     ],
   };

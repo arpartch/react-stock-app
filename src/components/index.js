@@ -7,3 +7,4 @@ export * from './Positions';
 export * from './RandoButton';
 export * from './SellButton';
 export * from './GainLoss';
+export * from './HoldButton';
