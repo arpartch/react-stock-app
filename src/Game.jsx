@@ -40,8 +40,8 @@ export const Game = () => {
   const { holding } = position;
 
   const handleBuy = () => {
-    const sharesToBuy = Math.round(divide(1000, latestPrice));
-    const cashSpent = multiply(sharesToBuy, latestPrice);
+    const sharesToBuy = Math.round(R.divide(1000, latestPrice));
+    const cashSpent = R.multiply(sharesToBuy, latestPrice);
     setPosition(
       R.pipe(
         R.over(holdingLens, R.subtract(R.__, cashSpent)),
