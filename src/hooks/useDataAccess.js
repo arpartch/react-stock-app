@@ -19,7 +19,7 @@ const handleBuyShares = (state, action) => {
   const newPositions = R.add(positions, availableShares);
   return R.pipe(
     R.assoc('buyingPower', newBuyingPower),
-    R.assoc('positions', newPositions),
+    R.assoc('positions', newPositions)
   )(state);
 };
 
@@ -42,11 +42,14 @@ export const useDataAccess = () => {
   const [state, dispatch] = stateControl;
   const sharePrice = R.prop('sharePrice', state);
   const buyingPower = R.prop('buyingPower', state);
+  const positions = R.prop('positions', state);
   const availableShares = R.divide(buyingPower, sharePrice);
   const buyShares = () => {
     console.log('buyShares');
     dispatch({ type: 'BUY_SHARES' });
   };
+
   const buyControl = [availableShares, buyShares];
-  return { stateControl, buyControl };
+  const sellControl = [positions];
+  return { stateControl, buyControl, sellControl };
 };

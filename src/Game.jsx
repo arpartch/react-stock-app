@@ -32,8 +32,10 @@ const deriveCandleStickData = R.pipe(
 const data = deriveCandleStickData(AAPL);
 
 export const Game = () => {
-  const { stateControl, buyControl } = useDataAccess();
+  const { stateControl, buyControl, sellControl } = useDataAccess();
+  console.log({sellControl})
   const [availableShares, buyShares] = buyControl;
+  const [positions] = sellControl;
   const [index, setIndex] = useState(10);
   const visibleData = R.slice(0, index)(data);
   const latestPrice = R.last(R.last(visibleData));
@@ -65,7 +67,7 @@ export const Game = () => {
       <Header />
       <Positions position={shares} />
       <RandoButton />
-      <SellButton />
+      <SellButton positions={positions} />
       <GainLoss />
     </Style>
   );
