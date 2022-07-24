@@ -14,7 +14,6 @@ const queryClient = new QueryClient();
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <h1>Hello StackBlitz!</h1>
       <Game />
     </QueryClientProvider>
   );
