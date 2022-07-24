@@ -13,6 +13,7 @@ import {
   GainLoss,
   HoldButton,
 } from './components';
+import { useDataAccess } from './hooks/useDataAccess.js';
 import style from 'styled-components';
 import AAPL from './StubData/AAPL.js';
 
@@ -29,9 +30,10 @@ const deriveCandleStickData = R.pipe(
 );
 
 const data = deriveCandleStickData(AAPL);
-console.log(data);
 
 export const Game = () => {
+  const { stateControl, buyControl } = useDataAccess();
+  const [availableShares, buyShares] = buyControl;
   const [index, setIndex] = useState(10);
   const visibleData = R.slice(0, index)(data);
   const latestPrice = R.last(R.last(visibleData));
@@ -56,7 +58,7 @@ export const Game = () => {
   return (
     <Style>
       <StockData data={visibleData} />
-      <BuyButton onClick={handleBuy} />
+      <BuyButton onClick={buyShares} availableShares={availableShares} />
       <HoldButton onClick={handleHold} />
       <BuyingPower holding={holding} />
       <Goal />
@@ -82,7 +84,7 @@ grid-template:
 "Goal Goal Goal" minmax(80px, 1fr)
 
  / minmax(100px, 1fr) minmax(100px, 1fr) minmax(100px, 1fr);
-#StockData{grid-area: StockData; background-color: red}; 
+#StockData{grid-area: StockData; background-color: green}; 
 #BuyButton{grid-area: BuyButton; background-color: blue}};
 #HoldButton{grid-area: HoldButton; background-color: red}
 #SellButton{grid-area: SellButton; background-color: pink}};
