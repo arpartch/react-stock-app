@@ -33,26 +33,15 @@ const data = deriveCandleStickData(AAPL);
 
 export const Game = () => {
   const { stateControl, buyControl, sellControl } = useDataAccess();
-  console.log({sellControl})
+  console.log({ sellControl });
   const [availableShares, buyShares] = buyControl;
-  const [positions] = sellControl;
+  const [positions, sellShares] = sellControl;
   const [index, setIndex] = useState(10);
   const visibleData = R.slice(0, index)(data);
   const latestPrice = R.last(R.last(visibleData));
   const [position, setPosition] = useState({ holding: 1000, shares: 0 });
   const { shares } = position;
   const { holding } = position;
-
-  const handleBuy = () => {
-    const sharesToBuy = Math.round(R.divide(1000, latestPrice));
-    const cashSpent = R.multiply(sharesToBuy, latestPrice);
-    setPosition(
-      R.pipe(
-        R.over(holdingLens, R.subtract(R.__, cashSpent)),
-        R.over(sharesLens, R.add(sharesToBuy))
-      )
-    );
-  };
 
   const handleHold = () => {
     return setIndex(R.inc);
@@ -67,7 +56,7 @@ export const Game = () => {
       <Header />
       <Positions position={shares} />
       <RandoButton />
-      <SellButton positions={positions} />
+      <SellButton onClick={sellShares} positions={positions} />
       <GainLoss />
     </Style>
   );
